@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>User Settings</title>
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <nav style="float: left; width:20%">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="create_report.html">Create a Report</a></li>
+            <li><a href="edit_report.html">Edit Reports</a></li>
+            <li><a href="display_map.html">View All Reports</a></li>
+            <li><a href="FAQ.html">FAQ</a></li>
+            <li><a href="contact_us.html">Contact Us</a></li>
+            <li><a href="user_settings.html">User Settings</a></li>
+            <li><a href="tell_a_friend.html">Tell a Friend</a></li>
+            <li><a href="#">Log Out</a></li>
+        </ul>
+    </nav>
+    <!-- CONTENT -->
+    <div style="float: left; width:80%">
+      <h1>User Settings</h1>
+      <h3>Personal Profile</h3><hr>
+      <p id="name_email_pwd"></p>
+      <p id="address"></p>
+      <p id="phone"></p><br>
+      <form action="edit_profile.html">
+        <input type="submit" value="Update Profile">
+      </form><br>
+      <form action="/delete_profile.php">
+        <input type="submit" value="Delete Profile">
+      </form>
+
+      <script>
+      var user = {fullName:"John Smith", email:"johnsmith@cypress.ca", pwd:"Passw!rd", address1:"123 Some Street Ave", postal:"A1A 1A1", tel:"123-456-7890"};
+      document.getElementById("name_email_pwd").innerHTML = "Name: " + user["fullName"] + "<br>" + "Email: " + user["email"] + "<br>" + "Password: " + user["pwd"];
+      document.getElementById("address").innerHTML = "Address: <br>" + user["address1"] + "<br>" + "Toronto, ON, Canada" + "<br>" + user["postal"];
+      document.getElementById("phone").innerHTML = "Phone Number: " + user["tel"];
+      </script>
+    </div>
+  </body>
+</html>

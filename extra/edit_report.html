@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Reports</title>
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <nav style="float: left; width:20%">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="create_report.html">Create a Report</a></li>
+            <li><a href="edit_report.html">Edit Reports</a></li>
+            <li><a href="display_map.html">View All Reports</a></li>
+            <li><a href="FAQ.html">FAQ</a></li>
+            <li><a href="contact_us.html">Contact Us</a></li>
+            <li><a href="user_settings.html">User Settings</a></li>
+            <li><a href="tell_a_friend.html">Tell a Friend</a></li>
+            <li><a href="#">Log Out</a></li>
+        </ul>
+    </nav>
+    <!-- CONTENT -->
+    <div style="float: left; width:80%">
+      <h1>Edit Reports</h1>
+      <!-- list of all user's reports -->
+      <form action="/edit_report.php">
+        <label for="reports">Choose a Report</label><br>
+        <input list="reports" name="reports" required>
+        <datalist id="reports">
+          <option value="Sample Report: Issue and Location">
+        </datalist><br><br>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label><br>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label><br>
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label><br>
+        <input type="submit" value="Edit Report">
+    </form>
+      <!-- Select and go to create_report page -->
+    </div>
+  </body>
+</html>
