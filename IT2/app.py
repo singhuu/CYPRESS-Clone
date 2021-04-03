@@ -164,12 +164,16 @@ def faq():
 def contact_us():
     return render_template('contact_us.html', title='CYPRESS- Contact Us')
 
+@app.route('/user_settings')
+def user_settings():
+    return render_template('user_settings.html', title='CYPRESS- User Settings')
+
 @app.route('/tell_a_friend')
 def tell_a_friend():
     return render_template('tell_a_friend.html',title='CYPRESS- Tell a Friend!')
 
 # WIP For Tables
-@app.route('/grades', methods=['GET', 'POST', 'DEL'])
+'''@app.route('/grades', methods=['GET', 'POST', 'DEL'])
 def grades():
     #pull the entire grades table
     student_grades = query_db('select * from grades')
@@ -262,6 +266,7 @@ def feedback():
         return render_template('view_feedback.html', title=title, q_map=q_map, fb_list=fb_mapped)
     else:
         return render_template('feedback.html', title=title, ins_list=ins_list, q_map=q_map)
+'''
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0') #allow for external devices to access

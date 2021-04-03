@@ -9,7 +9,7 @@
         </div>
         <small>eg: John Smith</small>
         <div class="cred-block" id="email-block">
-            <b>E-mail Address</b><br> <!-- if email is registered in database, need to tell user it's registered already -->
+            <b>E-mail Address</b><br>
             <input type="email" name="email" id="email" class="cred" required>
         </div>
         <div class="cred-block" id="password-block">
@@ -42,8 +42,7 @@
         </div>
         <br>
         <input type="checkbox" id="terms-and-conditions" name="terms-and-conditions" required>
-        <!-- Add mock terms and conditions page link-->
-        <label for="terms-and-conditions">I agree to the Terms and Conditions</label>
+        <label for="terms-and-conditions">I agree to the <a href="/static/content/terms_and_conditions.pdf" target="_blank">Terms and Conditions</a></label>
         <br>
         <button type="submit" value="submit" id="submit">Register</button>
 
