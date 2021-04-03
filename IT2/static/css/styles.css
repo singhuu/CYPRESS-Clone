@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: FreeSans;
+    src: url(/fonts/FreeSans.ttf);
+}
+
+html {
+    height: 100%;
+    font-family: FreeSans, sans-serif;
+}
+
+/* Text formatting */
+h1{
+    font-size: 40px;
+    font-weight: normal;
+}
+
+h2{
+    font-weight: normal;
+    font-size: 20px;
+}
+
+h3{
+    font-weight: normal;
+    font-size: 30px;
+}
+
+/* Link styling */
+a{
+    color: #003651;
+    font-weight: normal;
+}
+
+a:hover {
+    color: #003651;
+}
+
+hr {
+    width: 100%;
+}
+
+
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-weight: lighter;
+}
+
+.main-columns {
+    display: flex;
+    flex: 1 0 auto;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-status {
+    text-align: right;
+}
+
+#content-col {
+    width: 100%;
+}
+
+.footer {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+/* Buttons */
+/* Primary Action Button */
+button[type=submit] {
+    background-color: #EC9F09;
+    border: #EC9F09;
+    color: #00121B;
+    padding: 3px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    font-family: FreeSans;
+    border-radius: 10px;
+}
+
+button[type=submit]:hover {
+    background-color: #C78608;
+    border: #C78608;
+    cursor: pointer;
+}
+
+button[type=submit]:active {
+    background-color: #C78608;
+    border: #00121B;
+    border-width: 3px;
+    font-weight: bold;
+}
+
+textarea {
+    width: 98%;
+    height: 5em;
+    border: 2px solid #707070;
+    resize: none;
+    margin-top: 1.5%;
+}
+
+@media screen and (max-width: 44em) {
+    textarea {
+        width: 100%;
+    }
+}
