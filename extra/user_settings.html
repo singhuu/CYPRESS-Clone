@@ -26,16 +26,28 @@
       <p id="phone"></p><br>
       <form action="edit_profile.html">
         <input type="submit" value="Update Profile">
-      </form><br>
-      <form action="/delete_profile.php">
-        <input type="submit" value="Delete Profile">
       </form>
+      <button onclick="secQuestion()">Delete Profile</button>
 
       <script>
       var user = {fullName:"John Smith", email:"johnsmith@cypress.ca", pwd:"Passw!rd", address1:"123 Some Street Ave", postal:"A1A 1A1", tel:"123-456-7890"};
       document.getElementById("name_email_pwd").innerHTML = "Name: " + user["fullName"] + "<br>" + "Email: " + user["email"] + "<br>" + "Password: " + user["pwd"];
       document.getElementById("address").innerHTML = "Address: <br>" + user["address1"] + "<br>" + "Toronto, ON, Canada" + "<br>" + user["postal"];
       document.getElementById("phone").innerHTML = "Phone Number: " + user["tel"];
+      
+      function secQuestion() {
+        var ans = prompt("Please enter the security password to proceed", "test");
+        if (ans == "test") {
+          var x = confirm("Correct security password. Do you want to proceed?");
+          if (x == true) {
+            alert("We're sorry to see you go! You account has been successfully deleted");
+            //delete account!!
+            //redirect to login!!
+          } else {
+            alert("Your account has not been deleted.");
+          }
+        }
+      }
       </script>
     </div>
   </body>
