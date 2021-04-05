@@ -34,7 +34,8 @@
       document.getElementById("name_email_pwd").innerHTML = "Name: " + user["fullName"] + "<br>" + "Email: " + user["email"] + "<br>" + "Password: " + user["pwd"];
       document.getElementById("address").innerHTML = "Address: <br>" + user["address1"] + "<br>" + "Toronto, ON, Canada" + "<br>" + user["postal"];
       document.getElementById("phone").innerHTML = "Phone Number: " + user["tel"];
-      
+      //retrieve ^ from database!!
+        
       function secQuestion() {
         var ans = prompt("Please enter the security password to proceed", "test");
         //retrieve security question answer!!
@@ -42,10 +43,13 @@
           var x = confirm("Correct security password. Do you want to proceed?");
           if (x == true) {
             alert("We're sorry to see you go! You account has been successfully deleted");
-            //delete account!!
-            //redirect to login!!
+            //delete account in database!!
+            //should be "../index" but that wouldn't work for some reason
+            location.replace("index.html");
           } else {
             alert("Your account has not been deleted.");
+            //should be "../index" but that wouldn't work for some reason
+            location.assign("index.html");
           }
         }
       }
