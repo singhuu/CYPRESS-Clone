@@ -24,18 +24,12 @@
       <!-- list of all user's reports -->
       <form action="/edit_report.php">
         <label for="reports">Choose a Report</label><br>
-        <input list="reports" name="reports" required>
-        <datalist id="reports">
-          <option value="Sample Report: Issue and Location">
-        </datalist><br><br>
-        <input type="radio" id="male" name="gender" value="male">
-        <label for="male">Male</label><br>
-        <input type="radio" id="female" name="gender" value="female">
-        <label for="female">Female</label><br>
-        <input type="radio" id="other" name="gender" value="other">
-        <label for="other">Other</label><br>
+        <input type="radio" id="ex1" name="reports" value="ex1">
+        <label for="ex1">Report Date, Type, Location Example 1</label><br>
+        <input type="radio" id="ex2" name="reports" value="ex2">
+        <label for="ex2">Report Date, Type, Location Example 2</label><br>
         <input type="submit" value="Edit Report">
-    </form>
+      </form>
       <!-- Select and go to create_report page -->
     </div>
   </body>
