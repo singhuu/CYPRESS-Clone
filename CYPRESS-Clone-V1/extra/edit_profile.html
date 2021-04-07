@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>User Settings</title>
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <nav style="float: left; width:20%">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="create_report.html">Create a Report</a></li>
+            <li><a href="edit_report.html">Edit Reports</a></li>
+            <li><a href="display_map.html">View All Reports</a></li>
+            <li><a href="FAQ.html">FAQ</a></li>
+            <li><a href="contact_us.html">Contact Us</a></li>
+            <li><a href="user_settings.html">User Settings</a></li>
+            <li><a href="tell_a_friend.html">Tell a Friend</a></li>
+            <li><a href="#">Log Out</a></li>
+        </ul>
+    </nav>
+    <!-- CONTENT -->
+    <div style="float: left; width:80%">
+      <h1>User Settings</h1>
+      <h3>Personal Profile</h3><hr>
+      <form action="/edit_profile.php">
+        <label for="name">Full Name</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">E-mail Address</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="cpassword">Current Password</label><br>
+        <input type="password" id="cpassword" name="cpassword" required><br>
+        <label for="npassword">New Password</label><br>
+        <input type="password" id="npassword" name="npassword"><br>
+        <small>Password must be between 8-16 characters in length, include an uppercase letter, and a symbol</small><br>
+        <label for="npasswordcheck">Repeat New Password</label><br>
+        <input type="password" id="npasswordcheck" name="npasswordcheck"><br>
+        <label for="addressline1">Address Line 1</label><br>
+        <input type="text" id="addressline1" name="addressline1" required><br>
+        <small>Street address or P.O box</small><br>
+        <label for="addressline2">Address Line 2</label><br>
+        <input type="text" id="addressline2" name="addressline"><br>
+        <small>Apartment, suite, unit, building, floor, etc.</small><br>
+        <label for="postalcode">Postal Code</label><br>
+        <input type="text" id="postalcode" name="postalcode" required><br>
+        <small>eg: A1A 1A1</small><br>
+        <label for="phone">Phone Number</label><br>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br>
+        <small>eg: 123-456-7890</small><br><br>
+        <input type="submit" value="Update Profile">
+      </form><br>
+      <form action="/delete_profile.php">
+        <input type="submit" value="Delete Profile">
+      </form>
+
+      <script>
+      var user = {fullName:"John Smith", email:"johnsmith@cypress.ca", pwd:"Passw!rd", address1:"123 Some Street Ave", postal:"A1A 1A1", tel:"123-456-7890"};
+      document.getElementById("name").value = user["fullName"];
+      document.getElementById("email").value = user["email"];
+      document.getElementById("cpassword").value = user["pwd"];
+      document.getElementById("addressline1").value = user["address1"];
+      document.getElementById("postalcode").value = user["postal"];
+      document.getElementById("phone").value = user["tel"];
+      </script>
+    </div>
+  </body>
+</html>
