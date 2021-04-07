@@ -1,1 +1,33 @@
 {% extends 'navbar.html' %}
+{% block content %}
+    <h1>Report a Problem</h1>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places">
+    </script>
+    <input class="input-controls" id="searchInput" type="text" placeholder="Enter a location">
+    <div class="map" id="map" style="width: 90%; height: 500px;"></div><br>
+        <form action="/create_report.php" method="POST">
+            <!--note to self: add distinction between input vs. read-only fields-->
+            <!--note to self: cred-block div + cred for css styling WIP-->
+            <b>Address </b><br>
+            <input type="text" name="address" id="address" class="cred" required readonly>
+            <small id="address_error"></small>
+            <br><b>Select Issue Type</b><br>
+            <select class="issue_type" name="issue_type" id="issues" class="cred" required>
+                <option value="">Select an issue type...</option>
+                <option value="Utility Failures">Utility Failures</option>
+                <option value="Potholes">Potholes</option>
+                <option value="City Property Vandalism">City Property Vandalism</option>
+                <option value="Eroded Streets">Eroded Streets</option>
+                <option value="Tree Collapse">Tree Collapse</option>
+                <option value="Flooded Streets">Flooded Streets</option>
+                <option value="Mould and Spore Growth">Mould and Spore Growth</option>
+                <option value="Garbage or any other Road Blocking Objects">Garbage or any other Road Blocking Objects</option>
+            </select>
+            <br><b>Additional Details (optional)</b><br>
+            <textarea rows="3" cols="30" name="additional" id="additional"></textarea>
+            <button type="button" value="Store Details" onClick="storeRecipe()">Submit Report</button>
+            <script src='{{ url_for('static', filename='js/create_report.js') }}'></script>
+        </form>
+    </div>
+{% endblock %}

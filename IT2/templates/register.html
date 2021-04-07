@@ -1,5 +1,7 @@
 {% extends 'login.html' %}
 {% block login %}
+
+{% if (register_passed == False) %}
     <h1>Register</h1>
     <p>{{ error }}</p>
     <form method="post">
@@ -14,12 +16,12 @@
         </div>
         <div class="cred-block" id="password-block">
             <b>Password</b>
-            <input name="password" id="password" class="cred" required>
+            <input type="password" name="password" id="password" class="cred" required>
             <small>Please use a secure password between 6-16 characters in length, with at least one number and one special symbol.</small>
         </div>
         <div class="cred-block" id="repeat-password-block">
             <b>Repeat Password</b><br>
-            <input name="password-check" id="password-check" class="cred" required>
+            <input type="password" name="password-check" id="password-check" class="cred" required>
         </div>
         <div class="cred-block" id="address-1-block">
             <b>Address Line 1</b><br>
@@ -49,6 +51,57 @@
     </form>
     <p><a href="forgot_password">Forgot password?</a></p>
     <p>Have an account? <a href="login">Login</a></p>
+{% else %}
+    <h1>Setup Security Questions</h1>
+    <h3>
+        Account successfully registered! <p>In order to keep your CYPRESS account safe and in the event that you forget your password or if you wish to delete 
+        your account, please select three security questions and provide security answers that are easy to remember.</p>
+    </h3>
+    <form method="POST">
+        <p><select class="security" name="security1" required>
+            <option disabled selected value>Select a security question...</option>
+            <option value="1">What is your mother's maiden name?</option>
+            <option value="2">What is the name of your elementary school?</option>
+            <option value="3">What the name of your first pet?</option>
+            <option value="4">What was your first car?</option>
+            <option value="5">What is the name of the town you were born?</option>
+        </select>
+        <input name="security_answer_1" id="security_answer_1" class="cred" required></p>
+
+        <p><select class="security" name="security2" required>
+            <option disabled selected value>Select a security question...</option>
+            <option value="1">What is your mother's maiden name?</option>
+            <option value="2">What is the name of your elementary school?</option>
+            <option value="3">What the name of your first pet?</option>
+            <option value="4">What was your first car?</option>
+            <option value="5">What is the name of the town you were born?</option>
+        </select>
+        <input name="security_answer_2" id="security_answer_2" class="cred" required></p>
+
+        <p><select class="security" name="security3" required>
+            <option disabled selected value>Select a security question...</option>
+            <option value="1">What is your mother's maiden name?</option>
+            <option value="2">What is the name of your elementary school?</option>
+            <option value="3">What the name of your first pet?</option>
+            <option value="4">What was your first car?</option>
+            <option value="5">What is the name of the town you were born?</option>
+        </select>
+        <input name="security_answer_3" id="security_answer_3" class="cred" required></p>
+        <button type="submit" value="submit" id="submit">Submit</button>
+    </form>
+    <p><a href="login">Not now</a></p>
+{% endif %}    
+    <script>
+        $(function () {
+        // a bit of caching:
+        var sec = $('.security');
+        sec.change(function () {
+            sec.find('option').show().end().each(function(){
+                $('option[value="'+$(this).val()+'"]:not(:selected):not([value="0"])', sec).hide();
+            });
+        }).change();
+        });
+    </script>
 {% endblock %}
 {% block script %}
     <script src='{{ url_for('static', filename='js/register.js') }}'></script>

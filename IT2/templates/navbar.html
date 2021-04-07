@@ -44,7 +44,7 @@
     
         <div class="column" id="content-col">
             <div class="login-status">
-                Hello, <b>John Smith</b>
+                Hello, <b>{{ session['user']['fullname'] }}</b>!
             </div>
             <div class="content">
                 {% block content %}{% endblock %}
@@ -53,6 +53,7 @@
     </div>
 
     <div class="footer">
+        <h4>footer WIP</h4>
     </div>
 </body>
 {% block script %}{% endblock %}

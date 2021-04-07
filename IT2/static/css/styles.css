@@ -73,6 +73,16 @@ body {
     text-align: center;
 }
 
+.cred-block {
+    padding-top: 10px;
+}
+
+.cred {
+    width: 100%;
+    font-size: 0.8em;
+    padding: 0.5em;
+}
+
 /* Buttons */
 /* Primary Action Button */
 button[type=submit] {
