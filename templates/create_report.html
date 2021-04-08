@@ -1,0 +1,78 @@
+{% extends 'navbar.html' %} {% block content %}
+
+<body>
+    <nav style="float: left; width:20%">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="create_report.html">Create a Report</a></li>
+            <li><a href="edit_report.html">Edit Reports</a></li>
+            <li><a href="display_map.html">View All Reports</a></li>
+            <li><a href="FAQ.html">FAQ</a></li>
+            <li><a href="contact_us.html">Contact Us</a></li>
+            <li><a href="user_settings.html">User Settings</a></li>
+            <li><a href="tell_a_friend.html">Tell a Friend</a></li>
+            <li><a href="#">Log Out</a></li>
+        </ul>
+    </nav>
+    <div style="float: left; width:80%">
+        <h1>Report a Problem</h1>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places">
+        </script>
+        <input class="input-controls" id="searchInput" type="text" placeholder="Enter a location">
+        <!-- TODO: @Pearl - Below is the CSS for just the "Enter a Location Bar" You can leave this here or cut and paste it in th
+        CSS for this file -->
+        <style type="text/css">
+            .input-controls {
+                margin-top: 10px;
+                border: 1px solid transparent;
+                border-radius: 2px 0 0 2px;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                height: 32px;
+                outline: none;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+            
+            #searchInput {
+                background-color: #fff;
+                font-family: Roboto;
+                font-size: 15px;
+                font-weight: 300;
+                margin-left: 12px;
+                padding: 0 11px 0 13px;
+                text-overflow: ellipsis;
+                width: 50%;
+            }
+            
+            #searchInput:focus {
+                border-color: #4d90fe;
+            }
+        </style>
+        <div class="map" id="map" style="width: 90%; height: 500px;"></div><br>
+        <form action="/create_report.php" method="POST">
+            <!--note to self: add distinction between input vs. read-only fields-->
+            <!--note to self: cred-block div + cred for css styling WIP-->
+            <b>Address </b><br>
+            <input type="text" name="address" id="address" class="cred" required readonly>
+            <small id="address_error"></small>
+            <br><b>Select Issue Type</b><br>
+            <select class="issue_type" name="issue_type" id="issues" class="cred" required>
+                <option value="">Select an issue type...</option>
+                <option value="Utility Failures">Utility Failures</option>
+                <option value="Potholes">Potholes</option>
+                <option value="City Property Vandalism">City Property Vandalism</option>
+                <option value="Eroded Streets">Eroded Streets</option>
+                <option value="Tree Collapse">Tree Collapse</option>
+                <option value="Flooded Streets">Flooded Streets</option>
+                <option value="Mould and Spore Growth">Mould and Spore Growth</option>
+                <option value="Garbage or any other Road Blocking Objects">Garbage or any other Road Blocking Objects</option>
+            </select>
+            <br><b>Additional Details (optional)</b><br>
+            <textarea rows="3" cols="30" name="additional" id="additional"></textarea>
+            <br>
+            <button type="button" value="Store Details" onClick="storeRecipe()">Submit Report</button>
+            <script src='../static/js/create_report.js'></script>
+        </form>
+    </div>
+</body>
+{% endblock %}
