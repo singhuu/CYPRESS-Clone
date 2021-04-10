@@ -1,0 +1,14 @@
+{% extends 'navbar.html' %}
+{% block content %}
+    <h1>Edit Existing Reports</h1>
+    <!--User should only be able to edit their own reports-->
+    <!--HOWEVER! Users should be able to suggest solutions for ALL reports-->
+    <form action="/edit_report.php">
+        <label for="reports">Choose a Report</label><br><br>
+        <input type="radio" id="ex1" name="reports" value="ex1">
+        <label for="ex1">Report Date, Type, Location Example 1</label><br>
+        <input type="radio" id="ex2" name="reports" value="ex2">
+        <label for="ex2">Report Date, Type, Location Example 2</label><br><br>
+        <input type="submit" value="Edit Report">
+      </form>
+{% endblock %}

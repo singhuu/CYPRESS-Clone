@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CYPRESS Create Report </title>
+
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places"></script>
+</head>
+<!-- SIDEBAR -->
+
+<body>
+  <nav style="float: left; width:20%">
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="create_report.html">Create a Report</a></li>
+      <li><a href="edit_report.html">Edit Reports</a></li>
+      <li><a href="display_map.html">View All Reports</a></li>
+      <li><a href="FAQ.html">FAQ</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+      <li><a href="user_settings.html">User Settings</a></li>
+      <li><a href="tell_a_friend.html">Tell a Friend</a></li>
+      <li><a href="#">Log Out</a></li>
+    </ul>
+  </nav>
+  <div style="float: left; width:80%">
+    <h1>Report A Problem</h1>
+    <input class="input-controls" id="searchInput" type="text" placeholder="Enter a location">
+    <style type="text/css">
+      .input-controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #searchInput {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 50%;
+      }
+
+      #searchInput:focus {
+        border-color: #4d90fe;
+      }
+    </style>
+    <div class="map" id="map" style="width: 90%; height: 500px;"></div>
+    <br>
+    <div class="form">Address:
+      <!-- TODO: Modify these -->
+      <input type="text" name="address" id="address" required readonly>
+    </div>
+    <br>
+    <form>
+      <form action="/create_report.php">
+        <label for="issues">Select Your Issue</label>
+        <input list="issues" name="issues" required>
+        <datalist id="issues">
+          <option value="Utility Failures">
+          <option value="Potholes">
+          <option value="City Property Vandalism">
+          <option value="Eroded Streets">
+          <option value="Tree Collapse">
+          <option value="Flooded Streets">
+          <option value="Mould and Spore Growth">
+          <option value="Garbage or any other Road Blocking Objects">
+        </datalist>
+      </form>
+      <br>
+      <form>
+        <label for="additional">Additional Details:</label>
+        <textarea rows="3" cols="30" name="additional" id="additional"></textarea>
+      </form>
+      <button type="button" value="Store Details" onClick="storeRecipe()">Submit</button>
+      <script src="../js/create_report.js"></script>
+    </form>
+  </div>
+</body>
+
+</html>

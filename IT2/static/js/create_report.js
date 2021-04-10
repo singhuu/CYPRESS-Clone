@@ -110,7 +110,6 @@ function initialize() {
       return;
     }
     let latlng = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng())
-    // TODO: @Pearl Store Lat Lng from here
     localStorage.setItem("loc", latlng)
 
     // If the place has a geometry, then present it on a map.
