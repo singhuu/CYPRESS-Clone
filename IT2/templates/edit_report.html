@@ -2,13 +2,29 @@
 {% block content %}
     <h1>Edit Existing Reports</h1>
     <!--User should only be able to edit their own reports-->
-    <!--HOWEVER! Users should be able to suggest solutions for ALL reports-->
-    <form action="/edit_report.php">
-        <label for="reports">Choose a Report</label><br><br>
-        <input type="radio" id="ex1" name="reports" value="ex1">
-        <label for="ex1">Report Date, Type, Location Example 1</label><br>
-        <input type="radio" id="ex2" name="reports" value="ex2">
-        <label for="ex2">Report Date, Type, Location Example 2</label><br><br>
-        <input type="submit" value="Edit Report">
-      </form>
+    <!--HOWEVER! Users should be able to suggest solutions for ALL reports (see: suggestions)-->
+  <form method="POST">
+    <table>
+      <tr>
+        <th>Edit Report</th>
+        <th>Address</th>
+        <th>Type of Problem at Site</th>
+        <th>Additional Details</th>
+        <th>Report Status</th>
+        <th>Solutions</th>
+      </tr>
+      {% for report in user_reports %}
+        <tr>
+          <td><input type="radio" name="select_report" value={{ report[0] }} required></td>
+          <td>{{ report[1] }}</td>
+          <td>{{ report[2] }}</td>
+          <td>{{ report[3] }}</td>
+          <td>{{ report[5] }}</td>
+          <td>{{ report[6] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <button type="submit" value="submit" id="edit_button">Edit Selected Report</button>
+  </form>
+
 {% endblock %}

@@ -243,9 +243,44 @@ def create_report():
         # send confirmation
     return render_template('create_report.html')
 
-@app.route('/edit_report')
+@app.route('/edit_report', methods=['GET', 'POST'])
 def edit_report():
-    return render_template('edit_report.html')
+    if request.method == 'POST':
+        return redirect("/edit_report_details?id=" + request.form['select_report'])
+    else:
+        # get list of reports made by the session user
+        sql = ('select id, address, type_problem, additional_details, suggested_action, status, solution from reports where report_author =\'' + session['user']['email'] + '\'')
+        user_reports = query_db(sql)
+
+        return render_template('edit_report.html', user_reports=user_reports)
+
+@app.route('/edit_report_details', methods=['GET', 'POST'])
+def edit_report_details():
+    report_id = request.args.get('id')
+
+    if request.method == 'POST':
+        if 'add_suggestion' in request.form and request.form['add_suggestion'] != '':
+            sql = ('select suggested_action from reports where id=\'' + report_id + '\'')
+            suggestion_string = query_db(sql)[0][0]
+            if suggestion_string is None or suggestion_string == '':
+                suggestion_string = session['user']['fullname'] + ": " + request.form['add_suggestion']
+            else:
+                suggestion_string = suggestion_string + "," + session['user']['fullname'] + ": " + request.form['add_suggestion']
+            sql = ('update reports set address=\'' + request.form['address'] + '\', type_problem=\'' + request.form['issue_type'] + '\', additional_details=\'' + request.form['additional'] + 
+                    '\', suggested_action=\'' + suggestion_string + '\' where id =\'' + report_id + '\'')
+        else:
+            sql = ('update reports set address=\'' + request.form['address'] + '\', type_problem=\'' + request.form['issue_type'] + '\', additional_details=\'' + request.form['additional'] + 
+                    '\' where id =\'' + report_id + '\'')
+        write_db(sql)
+
+    sql = ('select * from reports where id =\'' + report_id + '\'')
+    selected_report = query_db(sql)[0]
+    if selected_report[5] is not None:
+        hold = selected_report[5].rstrip().split(',')
+    else:
+        hold = []
+
+    return render_template('edit_report_details.html', selected_report=selected_report, hold_suggest=hold)
 
 @app.route('/suggestions')
 def suggestions():
