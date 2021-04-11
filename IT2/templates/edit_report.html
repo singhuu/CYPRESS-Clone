@@ -6,7 +6,7 @@
   <form method="POST">
     <table>
       <tr>
-        <th>Edit Report</th>
+        <th></th>
         <th>Address</th>
         <th>Type of Problem at Site</th>
         <th>Additional Details</th>
@@ -19,7 +19,7 @@
           <td>{{ report[1] }}</td>
           <td>{{ report[2] }}</td>
           <td>{{ report[3] }}</td>
-          <td>{{ report[5] }}</td>
+          <td>{{ report[5].upper() }}</td>
           <td>{{ report[6] }}</td>
         </tr>
       {% endfor %}

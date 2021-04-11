@@ -1,4 +1,29 @@
 {% extends 'navbar.html' %}
 {% block content %}
+    <h1>Report Suggestions</h1>
+    <br>{{ success }}
+    <p>
+        <h4>Help us suggest a solution for any unresolved reports!</h4>
+    </p>
+    <form method="POST">
+        <table>
+          <tr>
+            <th></th>
+            <th>Address</th>
+            <th>Type of Problem at Site</th>
+            <th>Additional Details</th>
+            <th>Suggestions</th>
+          </tr>
+          {% for report in open_reports %}
+            <tr>
+              <td><input type="radio" name="select_report" value={{ report[0] }} required></td>
+              <td>{{ report[1] }}</td>
+              <td>{{ report[2] }}</td>
+              <td>{{ report[3] }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+        <button type="submit" value="submit" id="edit_button">Add Suggestion</button>
+      </form>
 
 {% endblock %}
