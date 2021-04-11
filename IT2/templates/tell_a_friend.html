@@ -1,14 +1,12 @@
 {% extends 'navbar.html' %}
 {% block content %}
     <h1>Tell a Friend</h1>
-    <h3>If you would like to share CYPRESS with a friend, please enter their email.</h3>
-    <form method="post" name="eMailer">
-        Tell a friend:
-        <input type="text" name="email" size="26" value="     Enter Address Here">
-        <br />
-        <input type="button" value="Send this URL"
-            onMouseOver="window.status='Click to send an email (with this page address) to a friend! Enter email address above...'; return true"
-            onMouseOut="window.status='';return true" onClick="mailThisUrl();">
+    <h4>If you would like to share CYPRESS with a friend, please enter their email.</h4>
+    <form method="post" name="eMailer" id="eMailer">
+        Email Address<br>
+        <input type="email" name="email" id="email" size="26" required>
+        <textarea name="custom_msg" id="custom_msg" rows="3" cols="30" placeholder="Custom message here (optional)"></textarea>
+        <br>
+        <button type="submit" name="submit" id="submit">Send</button>
     </form>
-    <script src='{{ url_for('static', filename='js/tell_a_friend.js') }}'></script>
 {% endblock %}

@@ -1,1 +1,23 @@
 {% extends 'navbar.html' %}
+{% block content %}
+    <h1>User Settings</h1>
+    <h3>Personal Profile</h3>
+    <hr>
+    <p>
+        Name: {{ profile[0] }}<br>
+        Email: {{ profile[1] }}<br>
+        Password: {{ profile[2] }}
+    </p>
+    <p>
+        Address:<br>
+        {{ profile[3] }}<br>
+        {{ profile[4] }}<br>
+        Toronto, ON, Canada<br>
+        {{ profile[5] }}
+    </p>
+    <p>
+        Phone Number: {{ profile[6] }}
+    </p>
+    <button type="button" id="update_profile" name="update_profile">Update Profile</button><br><br>
+    <i><small>Delete CYPRESS Account</small></i>
+{% endblock %}

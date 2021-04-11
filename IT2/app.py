@@ -32,9 +32,9 @@ PASS_RECOVERY = ""
 BUILD_USER = ""
 '''------------------------------'''
 
-
-### For Implementation with SQL database down the line ###
-
+'''
+Database related functions
+'''
 # the database file
 DATABASE = './cypressdb.db'
 
@@ -75,7 +75,9 @@ def write_db_many(query, values=()):
         return str(e)
 
 
-### START OF FLASK METHODS ###
+'''
+Flask methods
+'''
 
 # call function when Flask shuts down
 # tear down the database connection when Flask shuts down
@@ -89,8 +91,7 @@ def close_connection(exception):
 @app.route('/', methods=['GET','POST'])
 # start by asking for login credentials, when there is no active session
 @app.route('/login', methods=['GET','POST'])
-
-# WIP LOGIN (For registered users only, no distinction between user and admin for now.)
+# LOGIN (For registered users, no distinction between user and admin for now.)
 def login():
     error = ''
     confirmation = ''
@@ -118,8 +119,8 @@ def login():
 
     #missing: error counter (3 failed login attempts) + ban timer (1hr) 
 
-#WIP REGISTER (For new users only, no distinction between user and admin accounts for now.)
-# NO password encryption
+# REGISTER (For new users only, no distinction between user and admin accounts for now.)
+# NO password encryption for now, the methods needed to achieve this however, is already imported
 @app.route('/register', methods=['GET','POST'])
 def register():
     error = ''
@@ -164,12 +165,13 @@ def register():
 
 @app.route('/logout')
 def logout():
-    #insert modal to confirm logout
+    # missing: confirmation window to confirm logout
 	session.pop('user', None)
 	return redirect(url_for('login'))
 
 @app.route('/forgot_password', methods=['GET','POST'])
 def forgot_password():
+    # var init
     error = ''
     question = ""
     wrong_ans = ""
@@ -185,9 +187,11 @@ def forgot_password():
     answer_number = "security_answer_" + str(choose_1)
 
     if request.method == 'POST':
+        # check to see if first form is sent (user enters email)
         if 'email' in request.form:
             sql_q = 'select ' + question_number + ' from user_info where email=\'' + request.form['email'] + '\''
             sql_a = 'select ' + answer_number + ' from user_info where email=\'' + request.form['email'] + '\''
+            # email validity check
             try:
                 user_security_q = query_db(sql_q)[0]
                 user_security_a = query_db(sql_a)[0]
@@ -196,13 +200,16 @@ def forgot_password():
                 PASS_RECOVERY = query_db('select password from user_info where email=\'' + request.form['email'] + '\'')[0][0]
                 found_email = True
             except IndexError:
+                # email is not associated with registered account
                 error = 'The email provided is not associated with a CYPRESS account! Please try again.'
                 return render_template('forgot_password.html', error=error, question=RECOVERY_QUESTION, found=found_email, success=success, wrong_ans=wrong_ans)
-
+        # second form is sent (user must answer security question correctly)
         else:
             if request.form['security_a'].lower() == RECOVERY_ANS.lower():
                 # USER SUCCESSFULLY AUTHENTICATED SECURITY QUESTION!
                 # PROCEED TO EMAIL THEM THEIR PASSWORD
+                # note password is stored in global variable -> PASS_RECOVERY
+                # this variable will be cleared after email is sent
                 # <------------here----------->
 
                 # <-----------to here--------->
@@ -211,16 +218,17 @@ def forgot_password():
                 RECOVERY_ANS = ''
                 PASS_RECOVERY = ''
             else:
+                # incorrect answer for security check, do nothing.
                 wrong_ans = 'Incorrect security answer, please try again.'
                 found_email = True
                 return render_template('forgot_password.html', error=error, question=RECOVERY_QUESTION, found=found_email, success=success, wrong_ans=wrong_ans)
 
-
-
     return render_template('forgot_password.html', title='CYPRESS- Forgot Password', error=error, question=RECOVERY_QUESTION, found=found_email, success=success, wrong_ans=wrong_ans)
 
 @app.route('/home')
+# authenticated landing page after successful login
 def home():
+    #no active session/user
     if len(session) == 0:
         return render_template('login.html', error=error)
 
@@ -237,15 +245,17 @@ def create_report():
         else:
             sql = ('insert into reports (long_lat, address, type_problem, additional_details, report_author) values (\'' + request.json['loc'] + '\',\'' + request.json['address'] +
                     '\', \'' + request.json['issues'] + '\',\'' + request.json['additional'] + '\',\'' + session['user']['email'] + '\')')
-        # create new report
-        print(sql)
+        # create new report entry in database
         write_db(sql)
-        # send confirmation
+        # --------send email notification here--------
+
+        # -------------------------------
     return render_template('create_report.html')
 
 @app.route('/edit_report', methods=['GET', 'POST'])
 def edit_report():
     if request.method == 'POST':
+        # send user to edit selected report
         return redirect("/edit_report_details?id=" + request.form['select_report'])
     else:
         # get list of reports made by the session user
@@ -317,116 +327,33 @@ def edit_suggestions():
 
 @app.route('/faq')
 def faq():
+    # needs new template for site visitors (in footer)
     return render_template('faq.html')
 
 @app.route('/contact_us')
 def contact_us():
     return render_template('contact_us.html')
 
-@app.route('/user_settings')
+@app.route('/user_settings', methods=['GET', 'POST'])
 def user_settings():
-    return render_template('user_settings.html')
+    sql = ('select full_name, email, password, address_line_1, address_line_2, postal_code, phone_number from user_info where email = \'' + session['user']['email'] + '\'')
+    get_profile = query_db(sql)[0]
+    return render_template('user_settings.html', profile=get_profile)
 
-@app.route('/tell_a_friend')
+@app.route('/tell_a_friend', methods=['GET', 'POST'])
 def tell_a_friend():
+    # missing: email functionality
+    if request.method == 'POST':
+        friend_email = request.form['email']
+        # define standard CYPRESS greeting HERE
+        msg = ''
+        if request.form['custom_msg'] != '':
+            msg = request.form['custom_msg']
+        # -------Email here------
+        # -----------------------
     return render_template('tell_a_friend.html')
 
-# For Reference ONLY
-@app.route('/grades', methods=['GET', 'POST', 'DEL'])
-def grades():
-    #pull the entire grades table
-    student_grades = query_db('select * from grades')
-    evals = [ eval[0] for eval in query_db('select distinct eval from grades') ]
-    #show a different set of information if the user is an instructor
-    if session['user']['type'] == 'Ins':
-        remark_check = 'There are no remark requests at this moment.'
-        get_remarks = query_db('select distinct * from remark')
-        delete_msg = ''
-        if get_remarks != None:
-            remark_check = ''
 
-        if request.method == 'POST' and request.form['remark'] == 'no':
-            if request.form['eval-name'] in evals and request.form['username'] in [ entry[0] for entry in student_grades ]:
-                sql = ('update grades set grade=\'' + request.form['grade'] + '\'' ' where username=\'' +
-                    request.form['username'] + '\' and eval=\'' + request.form['eval-name'] + '\'')
-            else:
-                sql = ('insert into grades values (\'' +
-                    request.form['username'] + '\',\'' + request.form['eval-name'] + '\',\'' +
-                    request.form['grade'] + '\')')
-
-            msg = write_db(sql)
-            if type(msg) == int:
-                return redirect(url_for('grades'))
-            elif 'constraint failed' in msg:
-                ins_err = 'Entry already exists!'
-                return render_template('grades_instructor.html', student_grades = student_grades, evals = evals, remark_check = remark_check, get_remarks = get_remarks, ins_err=ins_err)
-        elif request.method == 'POST' and request.form['remark'] == 'yes':
-            sql = ('delete from remark where username=\'' +
-                    request.form['username'] + '\' and eval=\'' + request.form['eval-name'] + '\' and reason=\'' +
-                    request.form['reason'] + '\'')
-            
-            msg = write_db(sql)
-            return redirect(url_for('grades'))
-
-        return render_template('grades_instructor.html', student_grades = student_grades, evals = evals, remark_check = remark_check, get_remarks = get_remarks, ins_err='')
-        
-    #set of information for students
-    else:
-        send_message = ''
-        table_builder = []
-        for grade_entry in student_grades:
-            if grade_entry[0] == session['user']['username']:
-                table_builder.append(grade_entry)
-
-        #remark submission
-        if request.method == 'POST':
-            sql = ('insert into remark values (\'' +
-                    session['user']['username'] + '\',\'' + request.form['eval'] + '\',\'' + request.form['remark_request'] + '\')')
-            msg = write_db(sql)
-            app.logger.info(msg)
-            send_message = 'Thank you for your request.'
-
-        return render_template('grades.html', table_builder = table_builder, send_message = send_message)
-
-'''
-@app.route('/resources')
-def res():
-    return render_template('resources.html', title='Resources')
-
-q_map = {1: 'What do you like about the instructor teaching?',
-         2: 'What do you recommend the instructor to do to improve their teaching?',
-         3: 'What do you like about the labs?',
-         4: 'What do you recommend the lab instructors to do to improve their lab teaching?'}
-
-@app.route('/feedback', methods=['GET','POST'])
-def feedback():
-    title = 'Feedback'
-    ins_list = query_db('select username, firstname, lastname from user_info where user_type = \'Ins\'')
-
-    if request.method == 'POST': #will only be used for students
-        feedback_id = query_db('select max(feedback_id) from feedback')[0][0]
-
-        ans_list = []
-        for key in request.form:
-            if key != 'ins' and request.form[key] != '':
-                ans_list.append((request.form['ins'], feedback_id + 1, int(key), request.form[key]))
-
-        write_db_many('insert into feedback values(?,?,?,?)', ans_list)
-
-        return render_template('feedback.html', title=title, ins_list=ins_list, q_map=q_map, submitted=1)
-    if session['user']['type'] == 'Ins':
-        fb_list = query_db('select q_num, response from feedback where username=\'' + session['user']['username'] + '\'')
-        fb_mapped = {}
-        for entry in fb_list:
-            if entry[0] in fb_mapped.keys():
-                fb_mapped[entry[0]].append(entry[1])
-            else:
-                fb_mapped[entry[0]] = [entry[1]]
-
-        return render_template('view_feedback.html', title=title, q_map=q_map, fb_list=fb_mapped)
-    else:
-        return render_template('feedback.html', title=title, ins_list=ins_list, q_map=q_map)
-'''
-
+# Main Run
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0') #allow for external devices to access
+    app.run(debug=True, host='0.0.0.0') #allow for external devices to access (must be on same network, check firewall settings of local host)
