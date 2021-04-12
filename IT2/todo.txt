@@ -1,0 +1,6 @@
+1. Set security question (NOW REQUIRED)
+	-need to add dropdown option removal
+2. Language toggle (LOGIN only)
+3. Login Lockout (3 attempts, 1hr)
+4. allow users to delete their own reports
+5. if user has no reports, do not show table

@@ -1,0 +1,37 @@
+{% extends 'login.html' %}
+<!--Just borrowing the look/feel-->
+<!--Users are still technically logged in, and account still exists-->
+{% block login %}
+    {% if not complete %}
+        <h1>Delete CYPRESS account?</h1>
+        {% if not auth %}
+        {{ msg }}
+        <p>
+            To continue, please enter your account password:
+            <form method="POST">
+                <input type="password" id="pass_auth" name="pass_auth" required><br>
+                <button type="submit">Submit</button>
+            </form>
+        </p>
+        {% else %}
+            <p>
+                Password successfully authenticated. Do you want to proceed?
+            </p><br>
+           <button id="back" onclick="window.location.href='user_settings'"></button><form method="POST"><button type="submit" id="submit">Yes</button></form>
+        {% endif %}
+        <br><a href="user_settings">Back to user settings</a>
+    {% else %}
+        <h1>CYPRESS account successfully deleted.</h1>
+        <p>
+            We're sorry to see you go!<br>
+            Your account and any reports made have been deleted. You will be redirected to the CYPRESS login screen after confirming.<br>
+        </p>
+        <form method="POST" id="send_feedback">
+            Please let us know how we can improve our user experience.<br>
+            <textarea name="feedback" id="feedback"></textarea>
+        </form>
+        <b>Thank you experiencing CYPRESS.</b><br><br>
+        <!--AFTER SUBMISSION. USER IS DELETED ALONGSIDE ANY REPORTS. BECAREFUL WHILE TESTING-->
+        <button type="submit" form="send_feedback">Exit CYPRESS</button>
+    {% endif %}
+{% endblock %}

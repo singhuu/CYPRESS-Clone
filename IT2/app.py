@@ -104,7 +104,7 @@ def login():
             return render_template('login.html', error=error)
 
         if (user[1] == request.form['email']) and (user[2] == request.form['password']):
-            session['user'] = {'email': user[1], 'fullname': user[0], 'user_password': user[2], 'address_line_1': user[3], 'address_line_2': user[4], 'postal_code': user[5], 'phone_number': user[6]}
+            session['user'] = {'email': user[1], 'fullname': user[0], 'user_password': user[2], 'address_line_1': user[3], 'address_line_2': '' if user[4] is None else user[4], 'postal_code': user[5], 'phone_number': user[6]}
             return render_template('home.html', error=error)
         else:
             error = 'Incorrect password, please try again.'
@@ -151,7 +151,7 @@ def register():
             else:
                 error = 'An unknown error has occured, please contact the site admin.'
         else:
-            # set security questions, give option to skip for now
+            # set security questions
             sql = ('update user_info set security_question_1 =\'' + request.form['security1'] + '\', security_answer_1 =\'' + 
                     request.form['security_answer_1'] + '\', security_question_2 =\'' + request.form['security2'] + '\', security_answer_2 =\'' +
                     request.form['security_answer_2'] + '\', security_question_3 =\'' + request.form['security3'] + '\', security_answer_3 =\'' + request.form['security_answer_3'] + '\' where email=\'' + BUILD_USER + '\'')
@@ -313,7 +313,6 @@ def edit_suggestions():
         else:
             suggestion_string = suggestion_string + "," + session['user']['fullname'] + ": " + request.form['add_suggestion']
         sql = ('update reports set suggested_action=\'' + suggestion_string + '\' where id =\'' + report_id + '\'')
-        print(sql)
         write_db(sql)
         return render_template('suggestions.html')
     sql = ('select * from reports where id =\'' + report_id + '\'')
@@ -336,9 +335,55 @@ def contact_us():
 
 @app.route('/user_settings', methods=['GET', 'POST'])
 def user_settings():
-    sql = ('select full_name, email, password, address_line_1, address_line_2, postal_code, phone_number from user_info where email = \'' + session['user']['email'] + '\'')
-    get_profile = query_db(sql)[0]
-    return render_template('user_settings.html', profile=get_profile)
+    edit_settings = False
+    if request.method == "POST":
+        # user selected edit settings
+        edit_settings = True
+        # user submitted profile changes
+        if 'fullname' in request.form:
+            # push changes to db
+            sql = ('update user_info set full_name=\'' + request.form['fullname'] + '\', password=\'' + request.form['password'] + '\', address_line_1=\'' + request.form['address_1'] + 
+                    '\', address_line_2 =\'' + request.form['address_2'] + '\', postal_code=\'' + request.form['postal_code'] + '\', phone_number=\'' + request.form['phone_number'] +
+                    '\' where email=\'' + session['user']['email'] + '\'')
+            write_db(sql)
+            # update session user
+            sql = 'select full_name, email, password, address_line_1, address_line_2, postal_code, phone_number from user_info where email=\'' + session['user']['email'] + '\''
+            user = query_db(sql)[0]
+            session['user'] = {'email': user[1], 'fullname': user[0], 'user_password': user[2], 'address_line_1': user[3], 'address_line_2': '' if user[4] is None else user[4], 'postal_code': user[5], 'phone_number': user[6]}
+    return render_template('user_settings.html', profile=session['user'], edit_settings=edit_settings)
+
+@app.route('/delete_account', methods=['GET', 'POST'])
+def delete_account():
+    # controls
+    auth = False
+    complete = False
+    msg = ''
+    if request.method == "POST":
+        if 'pass_auth' in request.form:
+            # form 1: check password for authentication
+            if request.form['pass_auth'] == session['user']['user_password']:
+                auth = True
+            else:
+                msg = 'Incorrect password, please try again.'
+        elif 'feedback' in request.form:
+            # form 3: user feedback (if any)
+            if request.form['feedback'] != '':
+                print(session['user']['email'])
+                sql=('insert into user_feedback (feedback) values (\'' + request.form['feedback'] + '\')')
+                write_db(sql)
+            # remove user's reports
+            sql = ('delete from reports where report_author=\'' + session['user']['email'] + '\'')
+            write_db(sql)
+            # remove user
+            sql = ('delete from user_info where email=\'' + session['user']['email'] + '\'')
+            write_db(sql)
+            # logout user
+            return redirect(url_for('logout'))
+        else:
+            # form 2: check confirmation
+            complete = True
+    return render_template('delete_account.html', auth=auth, complete=complete, msg=msg)
+
 
 @app.route('/tell_a_friend', methods=['GET', 'POST'])
 def tell_a_friend():

@@ -1,23 +1,174 @@
 {% extends 'navbar.html' %}
 {% block content %}
-    <h1>User Settings</h1>
+<h1>User Settings</h1>
+<hr>
+{% if (edit_settings == False) %}
     <h3>Personal Profile</h3>
-    <hr>
-    <p>
-        Name: {{ profile[0] }}<br>
-        Email: {{ profile[1] }}<br>
-        Password: {{ profile[2] }}
-    </p>
-    <p>
-        Address:<br>
-        {{ profile[3] }}<br>
-        {{ profile[4] }}<br>
-        Toronto, ON, Canada<br>
-        {{ profile[5] }}
-    </p>
-    <p>
-        Phone Number: {{ profile[6] }}
-    </p>
-    <button type="button" id="update_profile" name="update_profile">Update Profile</button><br><br>
-    <i><small>Delete CYPRESS Account</small></i>
+    <div class="show-hide-profile">
+        <p>
+            Name: {{ profile['fullname'] }}<br>
+            Email: {{ profile['email'] }}<br>
+            Password: {{ profile['user_password'] }}
+        </p>
+        <p>
+            Address:<br>
+            {{ profile['address_line_1'] }}<br>
+            {% if profile['address_line_2'] != '' %}
+                {{ profile['address_line_2'] }}<br>
+            {% endif %}
+            Toronto, ON, Canada<br>
+            {{ profile['postal_code'] }}
+        </p>
+        <p>
+            Phone Number: {{ profile['phone_number'] }}
+        </p>
+        <form method="POST">
+            <button type="submit" id="update_profile" name="update_profile">Update Profile</button><br><br>
+        </form>
+        <button id="delete_account"><small>Delete CYPRESS Account</small></button>
+
+        <!--Account Deletion Modal-->
+        <div id="delete_modal" class="modal">
+            <div class="modal_content">
+                <!--Modal Header-->
+                <div class="modal_header">
+                    <span class="close">&times;</span>
+                    <h2>Delete user profile?</h2>
+                </div>
+                <!--Modal Content-->
+                <div class="modal_body">
+                    Would you like to proceed?
+                </div>
+                <!--Modal Footer-->
+                <div class="modal_footer">
+                    <div class='modal_btn'>
+                        <button id="cancel">Cancel</button><button id="to_delete" onclick="window.location.href='delete_account'">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <h3>Edit Personal Profile</h3>
+    <form method="POST">
+        <p>
+            <b>Name</b><br>
+            <input type="text" name="fullname" id="fullname" value="{{ profile['fullname'] }}" required>
+            <!--NOTE: email cannot be changed after account creation.-->
+            <br><b>Account Password</b><br>
+            <input type="password" name="password" id="password" value="{{ profile['user_password'] }}" required>
+            <br><b>Address Line 1</b><br>
+            <input type="text" name="address_1" id="address_1" value="{{ profile['address_line_1'] }}" required>
+            <br><small>Street address or P.O. box</small>
+            <br><b>Address Line 2</b><br>
+            <input type="text" name="address_2" id="address_2" value="{{ profile['address_line_2'] }}">
+            <br><small>Apartment, suite, unit, building, floor, etc.</small>
+            <br><b>Postal Code</b><br>
+            <input type="text" name="postal_code" id="postal_code" value="{{ profile['postal_code'] }}" required>
+            <br><small>eg: A1A 1A1</small>
+            <br><b>Phone Number</b><br>
+            <input type="text" name="phone_number" id="phone_number" value="{{ profile['phone_number'] }}" required><br>
+        </p>
+        <button type="submit" name="submit" id="submit">Save Changes</button>
+    </form>
+    <br><a href="user_settings">Back to User Settings</a>
+{% endif %}
+
+<script type="text/javascript">
+    var modal = document.getElementById("delete_modal");
+    var btn = document.getElementById("delete_account");
+    var cancel = document.getElementById("cancel");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+    modal.style.display = "block";
+    }
+
+    cancel.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+</script>
+<style>
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    
+    /* Modal Header */
+    .modal_header {
+      padding: 2px 16px;
+      text-align: center;
+      background-color: #5cb85c;
+      color: white;
+    }
+    
+    /* Modal Body */
+    .modal_body {padding: 2px 16px;}
+    
+    /* Modal Footer */
+    .modal_footer {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+      width: inherit;
+      height: inherit;
+    }
+    
+    .modal_btn {
+        padding: 2px 16px;
+    }
+    
+    /* Modal Content */
+    .modal_content {
+      position: relative;
+      background-color: #fefefe;
+      margin: auto;
+      padding: 0;
+      border: 1px solid #888;
+      width: inherit;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      animation-name: animatetop;
+      animation-duration: 0.4s
+    }
+    
+    /* Add Animation */
+    @keyframes animatetop {
+      from {top: -300px; opacity: 0}
+      to {top: 0; opacity: 1}
+    }
+    
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+</style>
 {% endblock %}
