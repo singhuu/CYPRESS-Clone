@@ -1,52 +1,59 @@
-{% extends 'navbar.html' %}
-{% block content %}
-    <h3>Edit report for: {{ selected_report[2] }}</h3>
-    <!--Insert Map-->
-    <form method="POST">
-        <!--note to self: add distinction between input vs. read-only fields-->
-        <!--note to self: cred-block div + cred for css styling WIP-->
-        <b>Address</b><br>
-        <input type="text" name="address" id="address" class="cred" value='{{ selected_report[2] }}' required readonly>
-        <br><b>Select Issue Type</b><br>
-        <select class="issue_type" name="issue_type" id="issues" class="cred" required>
-            <option value="">Select an issue type...</option>
-            <option value="Utility Failures">Utility Failures</option>
-            <option value="Potholes">Potholes</option>
-            <option value="City Property Vandalism">City Property Vandalism</option>
-            <option value="Eroded Streets">Eroded Streets</option>
-            <option value="Tree Collapse">Tree Collapse</option>
-            <option value="Flooded Streets">Flooded Streets</option>
-            <option value="Mould and Spore Growth">Mould and Spore Growth</option>
-            <option value="Garbage or any other Road Blocking Objects">Garbage or any other Road Blocking Objects</option>
-        </select>
-        <br><b>Additional Details (optional)</b><br>
-        <textarea rows="3" cols="30" name="additional" id="additional">{{ selected_report[4] }}</textarea>
-        <br><b>Suggested Actions</b><br>
-        <p>
-            {% for suggest in hold_suggest %}
-                {{ suggest }}<br>
-            {% endfor %}
-        </p>
-        <br><b>Add a Suggested Action</b>
-        <textarea rows="3" cols="30" name="add_suggestion" id="add_suggestion"></textarea>
-        <p>
-            <br><b>Current report status:</b> {{ selected_report[6].upper() }}
-            <br><b>Solutions implemented:</b> {{ selected_report[7] }}<br>
-        </p>
-        <button type="submit">Update Report</button>
-    </form>
-    <br>
-    <a href="edit_report">Back to reports</a>
+{% extends 'navbar.html' %} {% block content %}
 
-    <script type="text/javascript">
-        function setSelectedIndex(s, v) {
-            for ( var i = 0; i < s.options.length; i++ ) {
-                if ( s.options[i].text == v ) {
-                    s.options[i].selected = true;
-                    return;
-                }
+<h3>Edit report for: {{ selected_report[2] }}</h3>
+<!--Insert Map-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places"></script>
+<div class="map" id="map" style="width: 90%; height: 500px;"></div>
+<form method="POST">
+    <!--note to self: add distinction between input vs. read-only fields-->
+    <!--note to self: cred-block div + cred for css styling WIP-->
+    <b>Address</b><br>
+    <input type="text" name="address" id="address" class="cred" value='{{ selected_report[2] }}' required readonly>
+    <br><b>Select Issue Type</b><br>
+    <select class="issue_type" name="issue_type" id="issues" class="cred" required>
+        <option value="">Select an issue type...</option>
+        <option value="Utility Failures">Utility Failures</option>
+        <option value="Potholes">Potholes</option>
+        <option value="City Property Vandalism">City Property Vandalism</option>
+        <option value="Eroded Streets">Eroded Streets</option>
+        <option value="Tree Collapse">Tree Collapse</option>
+        <option value="Flooded Streets">Flooded Streets</option>
+        <option value="Mould and Spore Growth">Mould and Spore Growth</option>
+        <option value="Garbage or any other Road Blocking Objects">Garbage or any other Road Blocking Objects</option>
+    </select>
+    <br><b>Additional Details (optional)</b><br>
+    <textarea rows="3" cols="30" name="additional" id="additional">{{ selected_report[4] }}</textarea>
+    <br><b>Suggested Actions</b><br>
+    <p>
+        {% for suggest in hold_suggest %} {{ suggest }}<br> {% endfor %}
+    </p>
+    <br><b>Add a Suggested Action</b>
+    <textarea rows="3" cols="30" name="add_suggestion" id="add_suggestion"></textarea>
+    <p>
+        <br><b>Current report status:</b> {{ selected_report[6].upper() }}
+        <br><b>Solutions implemented:</b> {{ selected_report[7] }}<br>
+    </p>
+    <button type="submit">Update Report</button>
+</form>
+<br>
+<a href="edit_report">Back to reports</a>
+<script src="../static/js/edit_report_details.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/edit_report_details.js') }}"></script>
+<script>
+    store('{{ selected_report[1] }}')
+    store('{{ selected_report[3] }}')
+    store('{{ selected_report[4] }}')
+</script>
+<script type="text/javascript">
+    function setSelectedIndex(s, v) {
+        for (var i = 0; i < s.options.length; i++) {
+            if (s.options[i].text == v) {
+                s.options[i].selected = true;
+                return;
             }
         }
-        setSelectedIndex(document.getElementById('issues'), '{{ selected_report[3] }}');
-    </script>
+    }
+    setSelectedIndex(document.getElementById('issues'), '{{ selected_report[3] }}');
+</script>
 {% endblock %}

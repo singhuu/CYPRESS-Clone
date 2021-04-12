@@ -18,6 +18,7 @@ import sqlite3
 import random
 
 app = Flask(__name__)
+
 app.secret_key = 'cps406'.encode('utf-8')
 
 '''hi, no touchy pls'''

@@ -90,37 +90,67 @@ function initialize() {
             },
         ],
     });
-    
+
     const marker_label = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let i = 0;
-    
-    var Data = [{"loc":{ lat: 43.660485, lng: -79.384455 },"Address": "777 Bay St, Toronto, ON M5B 2H4, Canada", 
-    "issue": "Option 1", "additional": "ssssss" }, {"loc":{ lat: 43.6573933, lng: -79.37426909999999 },
-    "Address": "251 Jarvis St, Toronto, ON M5B 0C3, Canada", "issue": "Option 2", "additional": "sksksk" }];
-    
-    $.each(Data, function (key, value) {
-        let label = marker_label[i++ % marker_label.length];
-        addMarker(value.loc, map, label)
-        $('tbody').append(`<tr><td>${label}</td>
-        <td>${value.Address}</td>
-        <td>${value.issue}</td>
-        <td>${value.additional}</td>
-        </tr>`);
-    })
+
+    // TODO: @Pearl @khushdip Import the data to this variable and replace the array
+    // It should be imported in the following format [lat, lng, address, chosen issue, additional info]
+    var locations = [
+        [43.660485, -79.384455, "777 Bay St, Toronto, ON M5B 2H 4, Canada", "Option 1", "ssssss"],
+        [43.6573933, -79.37426909999999, "251 Jarvis St, Toronto, ON M5B 0C3, Canada", "Option 2", "sksksk"]
+    ];
+    var infowindow = new google.maps.InfoWindow();
+    var container = document.getElementById('container');
+    var table = document.createElement('table');
+    var tbody = document.createElement('tbody');
+
+    for (j = 0; j < locations.length; j++) {
+        if (locations[j][2].length != '') {
+            var marker = new google.maps.Marker({
+                label: marker_label[j],
+                position: new google.maps.LatLng(locations[j][0], locations[j][1]),
+                map: map,
+                title: locations[j][3],
+            });
+            var contentString = "<h1>" + locations[j][3] + "</h1>" + locations[j][4];
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 160
+            });
+
+            // Event that closes the Info Window with a click on the map
+            google.maps.event.addListener(map, 'click', (function(infowindow) {
+                return function() {
+                    infowindow.close();
+                }
+            })(infowindow));
+
+            google.maps.event.addListener(marker, 'click', (function(marker, j) {
+                return function() {
+                    // close all the other infowindows that opened on load
+                    google.maps.event.trigger(map, 'click')
+                        // var contentString = 'Title on Click';
+                    infowindow.setContent("<h3>" + locations[j][3] + "</h3>" + locations[j][4]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, j));
+        }
+        var val = locations[j];
+        var row = document.createElement('tr');
+
+        for (var k = 1; k < val.length; k++) {
+            var cell = document.createElement('td');
+            if (k == 1) {
+                cell.textContent = marker_label[j];
+            } else { cell.textContent = val[k]; }
+            row.appendChild(cell);
+        }
+        tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+    container.appendChild(table);
+
 }
 
-function addMarker(location,map,label) {
-    // Add the marker at the clicked location, and add the next-available label
-    // from the array of alphabetical characters.
-    new google.maps.Marker({
-      position: location,
-      label: label,
-      map: map,
-    });
-
-}
 
 google.maps.event.addDomListener(window, 'load', initialize);
-
-    
-
