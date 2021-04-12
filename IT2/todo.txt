@@ -4,3 +4,4 @@
 3. Login Lockout (3 attempts, 1hr)
 4. allow users to delete their own reports
 5. if user has no reports, do not show table
+6. after user successfully updates personal profile, bring them back to view-only.
