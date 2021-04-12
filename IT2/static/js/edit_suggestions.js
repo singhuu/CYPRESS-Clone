@@ -1,9 +1,9 @@
-var edit_report_array = [];
+var arr2 = [];
 
 function initialize() {
-    var temp_edit_report_array = edit_report_array;
-    var lat = temp_edit_report_array[0].substring(1, temp_edit_report_array[0].indexOf(","));
-    var lng = temp_edit_report_array[0].substring(temp_edit_report_array[0].indexOf(",") + 2, temp_edit_report_array[0].length - 1);
+    var temp_edit_submission_array = arr2;
+    var lat = temp_edit_submission_array[0].substring(1, temp_edit_submission_array[0].indexOf(","));
+    var lng = temp_edit_submission_array[0].substring(temp_edit_submission_array[0].indexOf(",") + 2, temp_edit_submission_array[0].length - 1);
 
     var co_ord = new google.maps.LatLng(lat, lng);
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -108,7 +108,7 @@ function initialize() {
         position: new google.maps.LatLng(lat, lng),
         map: map,
     });
-    var contentString = "<h4>" + temp_edit_report_array[1] + "</h4>" + temp_edit_report_array[2];
+    var contentString = "<h4>" + temp_edit_submission_array[1] + "</h4>" + temp_edit_submission_array[2];
     var infowindow = new google.maps.InfoWindow({
         content: contentString,
         maxWidth: 160
@@ -125,15 +125,15 @@ function initialize() {
         return function() {
             // close all the other infowindows that opened on load
             google.maps.event.trigger(map, 'click')
-            infowindow.setContent("<h4>" + temp_edit_report_array[1] + "</h4>" + temp_edit_report_array[2]);
+            infowindow.setContent("<h4>" + temp_edit_submission_array[1] + "</h4>" + temp_edit_submission_array[2]);
             infowindow.open(map, marker);
         }
     })(marker));
 }
 
 
-function store(vari) {
-    edit_report_array.push(vari);
+function store_sub(vari) {
+    arr2.push(vari);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
