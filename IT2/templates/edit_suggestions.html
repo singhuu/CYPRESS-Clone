@@ -1,24 +1,33 @@
-{% extends 'navbar.html' %}
-{% block content %}
-    <h3>Add a suggestion for: {{ selected_report[2] }}</h3>
-    <!--Insert Map-->
-    <br><p>
-            <b>Address:</b> {{ selected_report[2] }}<br>
-            <b>Issue Type:</b> {{ selected_report[3] }}<br>
-            <b>Additional Details:</b><br>
-            <textarea rows="3" cols="30" name="additional" id="additional" readonly>{{ selected_report[4] }}</textarea>
-            <b>Suggested Actions:</b>
-            <p>
-                {% for suggest in hold_suggest %}
-                    {{ suggest }}<br>
-                {% endfor %}
-            </p>
-        </p>
-    <form method='POST'>
-        <b>Add a Suggestion</b>
-        <textarea rows="3" cols="30" name="add_suggestion" id="add_suggestion" required></textarea>
-        <button type="submit" id="submit" name="submit">Add Suggestion</button>
-    </form>
-    <br>
-    <a href="suggestions">Back to suggestions</a>
+{% extends 'navbar.html' %} {% block content %}
+<h3>Add a suggestion for: {{ selected_report[2] }}</h3>
+<!--Insert Map-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places"></script>
+<div class="map" id="map" style="width: 90%; height: 500px;"></div>
+<br>
+<p>
+    <b>Address:</b> {{ selected_report[2] }}<br>
+    <b>Issue Type:</b> {{ selected_report[3] }}<br>
+    <b>Additional Details:</b><br>
+    <textarea rows="3" cols="30" name="additional" id="additional" readonly>{{ selected_report[4] }}</textarea>
+    <b>Suggested Actions:</b>
+    <p>
+        {% for suggest in hold_suggest %} {{ suggest }}<br> {% endfor %}
+    </p>
+</p>
+<form method='POST'>
+    <b>Add a Suggestion</b>
+    <textarea rows="3" cols="30" name="add_suggestion" id="add_suggestion" required></textarea>
+    <button type="submit" id="submit" name="submit">Add Suggestion</button>
+</form>
+<br>
+<a href="suggestions">Back to suggestions</a>
+<script src="../static/js/edit_suggestions.js"></script>
+<script src="{{ url_for('static', filename='js/edit_suggestions.js') }}"></script>
+<script>
+    store_sub('{{ selected_report[1] }}')
+    store_sub('{{ selected_report[3] }}')
+    store_sub('{{ selected_report[4] }}')
+</script>
+
+
 {% endblock %}
