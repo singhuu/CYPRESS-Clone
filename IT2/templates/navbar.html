@@ -21,10 +21,10 @@
         <div class="column" id="nav-col">
             <nav role="dropdown">
                 <input type="checkbox" id="nav-hamburger">
-                <label for="nav-hamburger" onclick></label>
+                <label for="nav-hamburger" onclick name="mobile-hamburger"></label>
                 <div class="nav-header">
-                    <!--City of Toronto Image in top left-->
-                    <h2 id="tagline">CYPRESS</h2>
+                    <img id="tagline" src="{{ url_for('static', filename='content/toronto_logo_white.png') }}" class="responsive_photo">
+                    <h1 class="nav_tag">CYPRESS</h1>
                 </div>
                 <ul class="links">
                     <li><a href="home">Home</a></li>
@@ -36,7 +36,7 @@
                     <li><a href="user_settings">User Settings</a></li>
                     <li><a href="tell_a_friend">Tell a Friend</a></li>
                     <!--insert modal for popup confirmation-->
-                    <li><a href="logout">Log Out</a></li> 
+                    <li><a href="logout" style="color: #8e0000;">Log Out</a></li> 
                     
                 </ul>
             </nav>
@@ -53,7 +53,13 @@
     </div>
 
     <div class="footer">
-        <h4>footer WIP</h4>
+        <p class="footer_top">
+            <a href='https://www.toronto.ca/' class='footer_link' target="_blank">City of Toronto 1998-2021</a>
+            <span class='left_footer_text'><a href="/static/content/privacy.pdf" target="_blank" class="footer_link">Privacy Policy</a> | <a href="/static/content/TnC.pdf" target="_blank" class="footer_link">Terms of Service</a></span>
+        </p>
+        <hr class='yellow'>
+        CYPRESS Site design by Group p2new_49 | CPS406, Iteration 2 
+    </div>
     </div>
 </body>
 {% block script %}{% endblock %}

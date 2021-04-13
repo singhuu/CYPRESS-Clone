@@ -255,15 +255,20 @@ def create_report():
 
 @app.route('/edit_report', methods=['GET', 'POST'])
 def edit_report():
-    if request.method == 'POST':
+    msg = ''
+    if request.method == 'POST' and request.form['btn'] == 'edit':
         # send user to edit selected report
         return redirect("/edit_report_details?id=" + request.form['select_report'])
-    else:
-        # get list of reports made by the session user
-        sql = ('select id, address, type_problem, additional_details, suggested_action, status, solution from reports where report_author =\'' + session['user']['email'] + '\'')
-        user_reports = query_db(sql)
+    elif request.method == 'POST' and request.form['btn'] == 'delete':
+        sql = ('delete from reports where id=\'' + request.form['select_report'] + '\'')
+        write_db(sql)
+        msg = 'Report successfully deleted.'
 
-        return render_template('edit_report.html', user_reports=user_reports)
+    # get list of reports made by the session user
+    sql = ('select id, address, type_problem, additional_details, suggested_action, status, solution from reports where report_author =\'' + session['user']['email'] + '\'')
+    user_reports = query_db(sql)
+
+    return render_template('edit_report.html', user_reports=user_reports, confirm=msg)
 
 @app.route('/edit_report_details', methods=['GET', 'POST'])
 def edit_report_details():
@@ -351,6 +356,7 @@ def user_settings():
             sql = 'select full_name, email, password, address_line_1, address_line_2, postal_code, phone_number from user_info where email=\'' + session['user']['email'] + '\''
             user = query_db(sql)[0]
             session['user'] = {'email': user[1], 'fullname': user[0], 'user_password': user[2], 'address_line_1': user[3], 'address_line_2': '' if user[4] is None else user[4], 'postal_code': user[5], 'phone_number': user[6]}
+            edit_settings = False
     return render_template('user_settings.html', profile=session['user'], edit_settings=edit_settings)
 
 @app.route('/delete_account', methods=['GET', 'POST'])

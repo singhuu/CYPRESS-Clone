@@ -6,18 +6,22 @@
         <h1>Delete CYPRESS account?</h1>
         {% if not auth %}
         {{ msg }}
-        <p>
+        <p><div class="cred-block">
             To continue, please enter your account password:
+        </div>
             <form method="POST">
-                <input type="password" id="pass_auth" name="pass_auth" required><br>
-                <button type="submit">Submit</button>
+                <input type="password" id="pass_auth" name="pass_auth" class='cred' required><br>
+                <button type="submit" class="secondary">Next</button>
             </form>
         </p>
         {% else %}
             <p>
                 Password successfully authenticated. Do you want to proceed?
-            </p><br>
-           <button id="back" onclick="window.location.href='user_settings'"></button><form method="POST"><button type="submit" id="submit">Yes</button></form>
+            </p>
+            <form method="POST" id="last_check"></form>
+            <div>
+                <button id="back" onclick="window.location.href='user_settings'" class="tert" style="display: inline; margin-inline-end: 1em;">No</button><button type="submit" id="submit" class="delete" form="last_check" style="display: inline;">Yes</button>
+            </div>
         {% endif %}
         <br><a href="user_settings">Back to user settings</a>
     {% else %}
@@ -27,11 +31,13 @@
             Your account and any reports made have been deleted. You will be redirected to the CYPRESS login screen after confirming.<br>
         </p>
         <form method="POST" id="send_feedback">
-            Please let us know how we can improve our user experience.<br>
-            <textarea name="feedback" id="feedback"></textarea>
+            <div class="cred-block">
+                Please let us know how we can improve our user experience.<br>
+                <textarea rows="5" cols="50" class="cred" name="feedback" id="feedback"></textarea>
+            </div>
         </form>
         <b>Thank you experiencing CYPRESS.</b><br><br>
         <!--AFTER SUBMISSION. USER IS DELETED ALONGSIDE ANY REPORTS. BECAREFUL WHILE TESTING-->
-        <button type="submit" form="send_feedback">Exit CYPRESS</button>
+        <button type="submit" form="send_feedback" class="secondary">Exit CYPRESS</button>
     {% endif %}
 {% endblock %}

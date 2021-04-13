@@ -3,9 +3,11 @@
     <h1>Tell a Friend</h1>
     <h4>If you would like to share CYPRESS with a friend, please enter their email.</h4>
     <form method="post" name="eMailer" id="eMailer">
-        Email Address<br>
-        <input type="email" name="email" id="email" size="26" required>
-        <textarea name="custom_msg" id="custom_msg" rows="3" cols="30" placeholder="Custom message here (optional)"></textarea>
+        <div class="cred-block" name="email-block">
+            Email Address<br>
+            <input type="email" name="email" id="email" class="cred" size="26" required>
+        </div>
+        <textarea name="custom_msg" id="custom_msg" rows="5" cols="50" class="cred" placeholder="Custom message here (optional)"></textarea>
         <br>
         <button type="submit" name="submit" id="submit">Send</button>
     </form>

@@ -1,7 +1,9 @@
-1. Set security question (NOW REQUIRED)
+1[omit]. Set security question (NOW REQUIRED)
 	-need to add dropdown option removal
-2. Language toggle (LOGIN only)
-3. Login Lockout (3 attempts, 1hr)
-4. allow users to delete their own reports
-5. if user has no reports, do not show table
-6. after user successfully updates personal profile, bring them back to view-only.
+2[omit]. Language toggle (LOGIN only)
+3[omit]. Login Lockout (3 attempts, 1hr)
+4[DONE]. allow users to delete their own reports
+5[N/A]. if user has no reports, do not show table
+6[DONE]. after user successfully updates personal profile, bring them back to view-only.
+
+completed: 4/12 11:30pm(EST)

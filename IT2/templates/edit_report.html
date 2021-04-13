@@ -4,6 +4,7 @@
     <!--User should only be able to edit their own reports-->
     <!--HOWEVER! Users should be able to suggest solutions for ALL reports (see: suggestions)-->
   <form method="POST">
+  <b style="color: #196919;">{{ confirm }}</b><br>
     <table>
       <tr>
         <th></th>
@@ -15,7 +16,7 @@
       </tr>
       {% for report in user_reports %}
         <tr>
-          <td><input type="radio" name="select_report" value={{ report[0] }} required></td>
+          <td><input type="radio" name="select_report" value={{ report[0] }} required class="check-radio"></td>
           <td>{{ report[1] }}</td>
           <td>{{ report[2] }}</td>
           <td>{{ report[3] }}</td>
@@ -24,7 +25,7 @@
         </tr>
       {% endfor %}
     </table>
-    <button type="submit" value="submit" id="edit_button">Edit Selected Report</button>
+    <button type="submit" name='btn' value="edit" id="edit_button">Edit Selected Report</button><button type="submit" name='btn' value="delete" id="delete_button" class="tert">Delete Selected Report</button>
   </form>
 
 {% endblock %}

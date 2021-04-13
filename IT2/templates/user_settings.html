@@ -23,9 +23,9 @@
             Phone Number: {{ profile['phone_number'] }}
         </p>
         <form method="POST">
-            <button type="submit" id="update_profile" name="update_profile">Update Profile</button><br><br>
+            <button type="submit" id="update_profile" name="update_profile" class="secondary">Update Profile</button><br><br>
         </form>
-        <button id="delete_account"><small>Delete CYPRESS Account</small></button>
+        <button id="delete_account" class="tert"><small>Delete CYPRESS Account</small></button>
 
         <!--Account Deletion Modal-->
         <div id="delete_modal" class="modal">
@@ -42,7 +42,7 @@
                 <!--Modal Footer-->
                 <div class="modal_footer">
                     <div class='modal_btn'>
-                        <button id="cancel">Cancel</button><button id="to_delete" onclick="window.location.href='delete_account'">Yes</button>
+                        <button id="cancel" style="margin-inline-end: 1em;" class="tert">Cancel</button><button id="to_delete" onclick="window.location.href='delete_account'" class='delete'>Yes</button>
                     </div>
                 </div>
             </div>
@@ -99,6 +99,10 @@
     }
 </script>
 <style>
+
+    h2{
+        margin-block-end: 0;
+    }
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -115,26 +119,35 @@
     
     /* Modal Header */
     .modal_header {
-      padding: 2px 16px;
+      padding: 2px 10px;
+      border-bottom: 1px solid #A5A5A6;
       text-align: center;
-      background-color: #5cb85c;
-      color: white;
+      background-color: white;
+      color: #00121B;
     }
     
     /* Modal Body */
-    .modal_body {padding: 2px 16px;}
+    .modal_body {
+        padding: 2px 16px;
+        margin: 0.5em;
+    }
     
     /* Modal Footer */
     .modal_footer {
       padding: 2px 16px;
-      background-color: #5cb85c;
+      border-top: 2px solid #A5A5A6;
+      background-color: #EDEEF1;
       color: white;
       width: inherit;
       height: inherit;
+      overflow: hidden;
     }
     
     .modal_btn {
         padding: 2px 16px;
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+        float: right;
     }
     
     /* Modal Content */
@@ -158,7 +171,7 @@
     
     /* The Close Button */
     .close {
-      color: #aaa;
+      color: #00121B;
       float: right;
       font-size: 28px;
       font-weight: bold;
@@ -166,7 +179,7 @@
     
     .close:hover,
     .close:focus {
-      color: black;
+      color: #888;
       text-decoration: none;
       cursor: pointer;
     }

@@ -24,6 +24,9 @@ h3 {
     font-weight: normal;
 }
 
+hr.yellow {
+    border-color: #EC9F09;
+}
 
 .header {
     display: block;
@@ -58,6 +61,43 @@ h3 {
     padding: 0.5em;
 }
 
+.footer {
+    padding-top: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+    display: block;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #003651;
+    color: white;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.footer_top {
+    text-align: left;
+
+}
+
+.left_footer_text {
+    float: right;
+}
+
+a.footer_link:link {
+    color: #EC9F09;
+}
+
+a.footer_link:visited {
+    color: #ccdee7;
+}
+
+a.footer_link:hover {
+    color: #C78608;
+}
+
+
+
 @media screen and (max-width: 44em) {
     .login {
         width: 90%;
@@ -66,10 +106,18 @@ h3 {
     .cred {
         width: 100%;
     }
+
+    .footer_top {
+        text-align: center;
+    }
+
+    .left_footer_text {
+        float: unset;
+    }
 }
 
 /* Button */
-button{
+button[type=submit] {
     background-color: #EC9F09;
     border: #EC9F09;
     color: #00121B;
@@ -80,17 +128,99 @@ button{
     font-size: 24px;
     font-family: FreeSans;
     border-radius: 10px;
-    margin-top: 10px;
+    margin: 10px 10px 10px 0px;
 }
 
-button:hover{
-    background-color: #F88379;
+button[type=submit]:hover{
+    background-color: #C78608;
     cursor: pointer;
 }
 
-button:active{
-    background-color: #DCDEE3;
+button[type=submit]:active{
+    background-color: #C78608;
     border: #000;
     border-width: 3px;
-    color: #F54E41;
+    font-weight: bold;
+}
+
+button.secondary {
+    background-color: #004B84;
+    border: #004B84;
+    color: #ffffff;
+    margin: 10px 10px 10px 0px;
+    padding: 3px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    font-family: FreeSans;
+    border-radius: 10px;
+}
+
+button.secondary:hover {
+    background-color: #003651;
+    border: #003651;
+    border-width: 3px;
+    cursor: pointer;
+}
+
+button.secondary:active {
+    background-color: #004B84;
+    border: #00121B;
+    border-width: 3px;
+    font-weight: bold;
+}
+
+button.tert {
+    background-color: #ffffff;
+    border-color: #004B84;
+    color: #00121B;
+    padding: 3px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-family: FreeSans;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+button.tert:hover {
+    background-color: #A5A5A6;
+    border-color: #003651;
+    border-width: 1px;
+    cursor: pointer;
+}
+
+button.tert:active {
+    background-color: #ffffff;
+    border-color: #004B84;
+    border-width: 1px;
+    font-weight: bold;
+}
+
+button.delete {
+    background-color: #8e0000;
+    border-color: #8e0000;
+    color: white;
+    padding: 3px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-family: FreeSans;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+button.delete:hover {
+    background-color: #380000;
+    border-color: #380000;
+    cursor: pointer;
+}
+
+button.delete:active {
+    background-color: #a43232;
+    border-color: #a43232;
+    font-weight: bold;
 }

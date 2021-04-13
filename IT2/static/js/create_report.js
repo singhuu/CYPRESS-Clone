@@ -171,7 +171,10 @@ function sendJSON(report_info) {
 
     // Creating a XHR object
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost:5000/create_report";
+    let host = window.location.origin
+    console.log(host)
+    let url = host +"/create_report";
+    console.log(url)
 
     // open a connection
     xhr.open("POST", url, true);

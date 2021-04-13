@@ -9,24 +9,29 @@
         <form method="POST">
             <!--note to self: add distinction between input vs. read-only fields-->
             <!--note to self: cred-block div + cred for css styling WIP-->
-            <b>Address </b><br>
-            <input type="text" name="address" id="address" class="cred" required readonly>
+            <div class="cred-block" id="email-block">
+                <b>Address </b><br>
+                <input type="text" name="address" id="address" class="cred" required readonly>
+            </div>
             <small id="address_error"></small>
-            <br><b>Select Issue Type</b><br>
-            <select class="issue_type" name="issue_type" id="issues" class="cred" required>
-                <option value="">Select an issue type...</option>
-                <option value="Utility Failures">Utility Failures</option>
-                <option value="Potholes">Potholes</option>
-                <option value="City Property Vandalism">City Property Vandalism</option>
-                <option value="Eroded Streets">Eroded Streets</option>
-                <option value="Tree Collapse">Tree Collapse</option>
-                <option value="Flooded Streets">Flooded Streets</option>
-                <option value="Mould and Spore Growth">Mould and Spore Growth</option>
-                <option value="Garbage or any other Road Blocking Objects">Garbage or any other Road Blocking Objects</option>
-            </select>
-            <br><b>Additional Details (optional)</b><br>
-            <textarea rows="3" cols="30" name="additional" id="additional"></textarea>
-            <button type="button" value="Store Details" onClick="storeRecipe()">Submit Report</button>
+            <div class="cred-block" id="issue-block">
+                <b>Select Issue Type</b><br>
+                <select name="issue_type" id="issues" required>
+                    <option value="">Select an issue type...</option>
+                    <option value="Utility Failures">Utility Failures</option>
+                    <option value="Potholes">Potholes</option>
+                    <option value="City Property Vandalism">City Property Vandalism</option>
+                    <option value="Eroded Streets">Eroded Streets</option>
+                    <option value="Tree Collapse">Tree Collapse</option>
+                    <option value="Flooded Streets">Flooded Streets</option>
+                    <option value="Mould and Spore Growth">Mould and Spore Growth</option>
+                    <option value="Garbage or any other Road Blocking Objects">Garbage or any other Road Blocking Objects</option>
+                </select>
+            </div>
+                <b>Additional Details (optional)</b><br>
+                <textarea rows="3" cols="30" name="additional" id="additional" class="cred"></textarea>
+            <button type="button" class="primary" value="Store Details" onClick="storeRecipe()">Submit Report</button>
+            <br><br>
             <script src='{{ url_for('static', filename='js/create_report.js') }}'></script>
         </form>
     </div>
