@@ -16,10 +16,19 @@ from flask import Flask, render_template, session, g, request, redirect, url_for
 # from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import random
+from email.message import EmailMessage
+import imghdr
+import smtplib
 
 app = Flask(__name__)
 
 app.secret_key = 'cps406'.encode('utf-8')
+#static 
+CYP_TECH_EMAIL = 'cypresstech21@gmail.com'
+CYP_TECH_PASS= 'Cypress#406'
+#email of your choice
+CITY_EMAIL="cypresstech21@gmail.com"
+
 
 '''hi, no touchy pls'''
 '''------------------------------'''
@@ -74,6 +83,29 @@ def write_db_many(query, values=()):
         return cur.lastrowid
     except sqlite3.Error as e:
         return str(e)
+#email sender        
+def emailsender(sender, sender_pass, receiver, subject, content, image):
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = receiver
+    msg.set_content(content)
+
+    if (image!='None'):
+        with open(image, 'rb') as img:
+            img_data = img.read()
+            img_type = imghdr.what(img.name)
+            img_name = img.name
+        msg.add_attachment(img_data, maintype='image', subtype=img_type, filename=img_name)
+
+    with smtplib.SMTP('smtp.gmail.com',587) as mail:
+        mail.ehlo()
+        mail.starttls()
+        mail.ehlo()
+        mail.login(sender, sender_pass)
+        mail.send_message(msg)
+
+    return 'Email sent.'
 
 
 '''
@@ -105,6 +137,8 @@ def login():
             return render_template('login.html', error=error)
 
         if (user[1] == request.form['email']) and (user[2] == request.form['password']):
+            
+            
             session['user'] = {'email': user[1], 'fullname': user[0], 'user_password': user[2], 'address_line_1': user[3], 'address_line_2': '' if user[4] is None else user[4], 'postal_code': user[5], 'phone_number': user[6]}
             return render_template('home.html', error=error)
         else:
@@ -126,6 +160,7 @@ def login():
 def register():
     error = ''
     global BUILD_USER
+    
     register_passed = False
     if request.method == 'POST':
         if 'email' in request.form:
@@ -145,6 +180,7 @@ def register():
             if type(msg) == int:
                 register_passed = True
                 BUILD_USER = request.form['email']
+                 
                 render_template('register.html', error=error, register_passed=register_passed)
                 # return redirect(url_for('login', f='register'))
             elif 'constraint failed' in msg and 'user_info.email' in msg:
@@ -181,6 +217,7 @@ def forgot_password():
     global RECOVERY_ANS
     global PASS_RECOVERY
     global RECOVERY_QUESTION
+    global USER_EMAIL
     # pick a question to ask the user for authentication
     # assuming that the user has chosen and answered 3 security questions after registration
     choose_1 = random.randint(1,3)
@@ -199,6 +236,7 @@ def forgot_password():
                 RECOVERY_QUESTION = SECURITY_QUESTIONS[int(user_security_q[0]-1)]
                 RECOVERY_ANS = user_security_a[0]
                 PASS_RECOVERY = query_db('select password from user_info where email=\'' + request.form['email'] + '\'')[0][0]
+                USER_EMAIL= request.form['email']
                 found_email = True
             except IndexError:
                 # email is not associated with registered account
@@ -212,9 +250,15 @@ def forgot_password():
                 # note password is stored in global variable -> PASS_RECOVERY
                 # this variable will be cleared after email is sent
                 # <------------here----------->
+                RECOVERY_SUB='Cypress Account Password Retrieval'
+                RECOVERY_CON='Your password is "'+PASS_RECOVERY+'".'
+                emailsender(CYP_TECH_EMAIL, CYP_TECH_PASS, USER_EMAIL, RECOVERY_SUB, RECOVERY_CON, 'None')
+                RECOVERY_SUB=''
+                RECOVERY_CON=''
 
                 # <-----------to here--------->
                 success = True
+                USER_EMAIL=''
                 RECOVERY_QUESTION = ""
                 RECOVERY_ANS = ''
                 PASS_RECOVERY = ''
@@ -249,6 +293,16 @@ def create_report():
         # create new report entry in database
         write_db(sql)
         # --------send email notification here--------
+        
+        REPORT_SUB='Report submitted on '+request.json['issues']+' at '+request.json['address']+'.'
+        if request.json['additional'] == '':
+            REPORT_CON='No additional details.'
+        else:
+            REPORT_CON='Additional Details: '+request.json['additional']
+        emailsender(CYP_TECH_EMAIL, CYP_TECH_PASS, CITY_EMAIL, REPORT_SUB, REPORT_CON, 'None')
+        REPORT_SUB=''
+        REPORT_CON=''
+
 
         # -------------------------------
     return render_template('create_report.html')
@@ -398,10 +452,12 @@ def tell_a_friend():
     if request.method == 'POST':
         friend_email = request.form['email']
         # define standard CYPRESS greeting HERE
-        msg = ''
+        msg = 'Cypress is a government website used to store and shares reports of problems found across the city.'
         if request.form['custom_msg'] != '':
             msg = request.form['custom_msg']
         # -------Email here------
+        FRIEND_SUB=session['user']['fullname']+' Would Like To Tell You About Cypress!'
+        emailsender(CYP_TECH_EMAIL, CYP_TECH_PASS, friend_email,FRIEND_SUB, msg, 'None')
         # -----------------------
     return render_template('tell_a_friend.html')
 
