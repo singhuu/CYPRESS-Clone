@@ -2,7 +2,7 @@
 <h3>Add a suggestion for: {{ selected_report[2] }}</h3>
 <!--Insert Map-->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places"></script>
-<div class="map" id="map" style="width: 90%; height: 500px;"></div>
+<div class="map" id="map" style="width: 100%; height: 500px;"></div>
 <br>
 <p>
     <b>Address:</b> {{ selected_report[2] }}<br>
@@ -28,6 +28,5 @@
     store_sub('{{ selected_report[3] }}')
     store_sub('{{ selected_report[4] }}')
 </script>
-
 
 {% endblock %}

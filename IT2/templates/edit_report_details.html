@@ -3,7 +3,7 @@
 <h3>Edit report for: {{ selected_report[2] }}</h3>
 <!--Insert Map-->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJx9RD25O9Xj8a2etlzwSRui0Zy56Ukuw&libraries=places"></script>
-<div class="map" id="map" style="width: 90%; height: 500px;"></div>
+<div class="map" id="map" style="width: 100%; height: 500px;"></div>
 <form method="POST">
     <!--note to self: add distinction between input vs. read-only fields-->
     <!--note to self: cred-block div + cred for css styling WIP-->
@@ -56,4 +56,5 @@
     }
     setSelectedIndex(document.getElementById('issues'), '{{ selected_report[3] }}');
 </script>
+
 {% endblock %}
